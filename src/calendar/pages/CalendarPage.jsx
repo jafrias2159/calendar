@@ -6,7 +6,7 @@ import { localizer } from '../helpers/calendarLocalizer';
 import { CalendarEvent } from '../components/CalendarEvent';
 import { useState } from 'react';
 import { CalendarModal } from '../components/CalendarModal';
-
+import { useUIStore } from '../../hooks/useUIStore.js';
 const events = [
   {
     title: 'Cumpleaños del Jefe',
@@ -21,6 +21,7 @@ const events = [
   },
 ];
 export const CalendarPage = () => {
+  const { openDateModal } = useUIStore();
   const [view, setView] = useState(localStorage.getItem('lastView') || 'week');
   const eventStyleGetter = (event, start, end, isSelected) => {
     // console.log({ event, start, end, isSelected });
@@ -36,7 +37,7 @@ export const CalendarPage = () => {
   };
 
   const onDoubleClickHandler = (event) => {
-    console.log('onDoubleClickHandler', event);
+    openDateModal();
   };
   const onSelectEventHandler = (event) => {
     console.log('onSelectEventHandler', event);

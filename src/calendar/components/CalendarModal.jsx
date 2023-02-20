@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2';
+import { useUIStore } from '../../hooks/useUIStore';
 
 const customStyles = {
   content: {
@@ -21,7 +22,7 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
-  const [isOpen, setisOpen] = useState(true);
+  const { isDateModalOpen, closeDatemodal } = useUIStore();
   const [formValues, setFormValues] = useState({
     title: 'Note 1',
     notes:
@@ -41,7 +42,8 @@ export const CalendarModal = () => {
   }, [formValues.title, isFormSubmitted]);
 
   const onCloseModalHandler = () => {
-    setisOpen((isOpen) => !isOpen);
+    // setisOpen((isOpen) => !isOpen);
+    closeDatemodal();
   };
 
   const onInputChangedHandler = ({ target }) => {
@@ -81,7 +83,7 @@ export const CalendarModal = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={isDateModalOpen}
       onRequestClose={onCloseModalHandler}
       style={customStyles}
       className='modal'
