@@ -7,21 +7,13 @@ import { CalendarEvent } from '../components/CalendarEvent';
 import { useState } from 'react';
 import { CalendarModal } from '../components/CalendarModal';
 import { useUIStore } from '../../hooks/useUIStore.js';
-const events = [
-  {
-    title: 'Cumpleaños del Jefe',
-    notes: 'Hay que comprar el pastel',
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: '#fafafa',
-    user: {
-      _id: '123',
-      name: 'Jorge',
-    },
-  },
-];
+import { useCalendarStore } from '../../hooks/useCalendarStore';
+import { FabAddNew } from '../components/FabAddNew';
+import { FabDelete } from '../components/FabDelete';
+
 export const CalendarPage = () => {
-  const { openDateModal } = useUIStore();
+  const { events, setActiveEvent, activeEvent } = useCalendarStore();
+  const { openDateModal, isDateModalOpen } = useUIStore();
   const [view, setView] = useState(localStorage.getItem('lastView') || 'week');
   const eventStyleGetter = (event, start, end, isSelected) => {
     // console.log({ event, start, end, isSelected });
@@ -40,7 +32,7 @@ export const CalendarPage = () => {
     openDateModal();
   };
   const onSelectEventHandler = (event) => {
-    console.log('onSelectEventHandler', event);
+    setActiveEvent(event);
   };
 
   const onviewChangeEventHandler = (event) => {
@@ -56,8 +48,8 @@ export const CalendarPage = () => {
           defaultView={view}
           localizer={localizer}
           events={events}
-          startAccessor='start'
-          endAccessor='end'
+          startAccessor='startDate'
+          endAccessor='endDate'
           style={{ height: 'calc(100vh - 80px)' }}
           eventPropGetter={eventStyleGetter}
           components={{ event: CalendarEvent }}
@@ -66,6 +58,8 @@ export const CalendarPage = () => {
           onView={onviewChangeEventHandler}
         />
         <CalendarModal />
+        <FabAddNew />
+        {activeEvent && !isDateModalOpen && <FabDelete />}
       </div>
     </>
   );
