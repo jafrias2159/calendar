@@ -5,6 +5,7 @@ import { addHours } from 'date-fns';
 import { localizer } from '../helpers/calendarLocalizer';
 import { CalendarEvent } from '../components/CalendarEvent';
 import { useState } from 'react';
+import { CalendarModal } from '../components/CalendarModal';
 
 const events = [
   {
@@ -63,6 +64,7 @@ export const CalendarPage = () => {
           onSelectEvent={onSelectEventHandler}
           onView={onviewChangeEventHandler}
         />
+        <CalendarModal />
       </div>
     </>
   );
