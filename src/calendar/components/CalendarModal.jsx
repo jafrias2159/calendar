@@ -1,4 +1,4 @@
-import { addHours, differenceInSeconds } from 'date-fns';
+import { differenceInSeconds } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2';
 import { useUIStore } from '../../hooks/useUIStore';
 import { useCalendarStore } from '../../hooks/useCalendarStore';
+import { getEnvVariables } from '../../helpers/getEnvVariables';
 
 const customStyles = {
   content: {
@@ -20,7 +21,9 @@ const customStyles = {
 };
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement('#root');
+if (getEnvVariables().VITE_MODE !== 'test') {
+  Modal.setAppElement('#root');
+}
 
 export const CalendarModal = () => {
   const { activeEvent, startSavingEvent } = useCalendarStore();
@@ -40,7 +43,6 @@ export const CalendarModal = () => {
 
   useEffect(() => {
     if (activeEvent) {
-      console.log({ activeEvent });
       setFormValues({ ...activeEvent });
     }
   }, [activeEvent]);
@@ -84,7 +86,7 @@ export const CalendarModal = () => {
 
     await startSavingEvent({ ...formValues });
     closeDateModal();
-    setIsFormSubmitted(false)
+    setIsFormSubmitted(false);
   };
 
   return (

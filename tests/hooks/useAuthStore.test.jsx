@@ -199,7 +199,6 @@ describe('Tests on useAuthStore hook', () => {
     await act(async () => {
       await result.current.checkauthToken();
     });
-    console.log(result.current);
     expect(result.current).toEqual(
       expect.objectContaining({
         status: 'authenticated',
@@ -223,7 +222,6 @@ describe('Tests on useAuthStore hook', () => {
     await act(async () => {
       await result.current.checkauthToken();
     });
-    console.log(result.current);
     expect(result.current).toEqual(
       expect.objectContaining({
         status: 'not-authenticated',
@@ -246,7 +244,6 @@ describe('Tests on useAuthStore hook', () => {
     await act(async () => {
       await result.current.startLogout();
     });
-    console.log(result.current);
     expect(result.current).toEqual(
       expect.objectContaining({
         status: 'not-authenticated',
